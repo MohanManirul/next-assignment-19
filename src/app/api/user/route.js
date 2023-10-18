@@ -11,13 +11,15 @@ export async function GET(){
     try{
         const prisma = new PrismaClient();
         
-        let result = await prisma.user.findMany();
+        let result = await prisma.user.aggregate({
+            _count:{id:true}
+        });
         return NextResponse.json({status:"success", data:result});
     }catch(err){
         return NextResponse.json({status:"Fail" , data:err.toString()});
     }
 }
-
+ 
 
 //insert single data
 export async function POST(req , res){
@@ -30,7 +32,7 @@ export async function POST(req , res){
 
 
     let result = await prisma.user.create( {
-        data: {...reqBody, lastLogin: new Date(reqBody.lastLogin).toISOString()}
+        data: {...reqBody, lastLogin: new Date(reqBody.lastLogin).toISOString() , registeredAt: new Date(reqBody.registeredAt).toISOString() }
     } )
 
         return NextResponse.json({ status: 'Success' , data:result });
@@ -49,7 +51,7 @@ export async function PUT(req, res){
      const reqBody = await req.json(); 
     let result = await prisma.user.update({
         where : { id : 1 },
-        data: {...reqBody, lastLogin: new Date(reqBody.lastLogin).toISOString()}
+        data: {...reqBody, lastLogin: new Date(reqBody.lastLogin).toISOString() , registeredAt: new Date(reqBody.registeredAt).toISOString()}
     });
         return NextResponse.json({status:"Success" , data:result});
     }catch(err){
@@ -69,7 +71,7 @@ export async function DELETE(){
      const prisma = new PrismaClient();
 
     let result = await prisma.user.delete({
-        where:{id:1}
+        where:{id:4}
       
     });
         return NextResponse.json({status:"Success", data:result});
