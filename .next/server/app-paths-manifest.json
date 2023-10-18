@@ -1,3 +1,3 @@
 {
-  "/api/product_meta/route": "app/api/product_meta/route.js"
+  "/api/product_review/route": "app/api/product_review/route.js"
 }
