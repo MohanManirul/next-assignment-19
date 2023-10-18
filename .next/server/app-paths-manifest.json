@@ -1,3 +1,4 @@
 {
-  "/api/product/route": "app/api/product/route.js"
+  "/api/product/route": "app/api/product/route.js",
+  "/api/order/route": "app/api/order/route.js"
 }
