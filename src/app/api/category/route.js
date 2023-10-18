@@ -11,7 +11,9 @@ export async function GET(){
     try{
         const prisma = new PrismaClient();
         
-        let result = await prisma.category.findMany();
+        let result = await prisma.category.aggregate({
+            _count:{id:true}
+        });
         return NextResponse.json({status:"success", data:result});
     }catch(err){
         return NextResponse.json({status:"Fail" , data:err.toString()});
@@ -42,20 +44,16 @@ export async function POST(req , res){
 }
 
 // //update query
-export async function PUT(){
+export async function PUT(req , res){
     try{
         BigInt.prototype.toJSON = function () {
             return this.toString();
           };
      const prisma = new PrismaClient();
-
+     const reqData = await req.json();
     let result = await prisma.category.update({
-        where:{id:1},
-       data: { 
-        title:"Electronics Update",
-        metaTitle:"electronics-update",
-        
-        }
+        where:{id:2},
+       data:  reqData 
     });
         return NextResponse.json({status:"Success", data:result});
     }catch(err){
@@ -74,7 +72,7 @@ export async function DELETE(){
      const prisma = new PrismaClient();
 
     let result = await prisma.category.delete({
-        where:{id:1}
+        where:{id:7}
       
     });
         return NextResponse.json({status:"Success",data:result});
